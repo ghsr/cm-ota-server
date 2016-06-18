@@ -7,37 +7,18 @@ from lxml import html
 
 MEMCACHE_TIMEOUT = 20 * 60  # 20 minutes
 
-
-def extract_version(rev):
-    # pawitp.i9082.cm-12.20141216
-    vendor, device, rom, date = rev.split(".")
-
-    if date == "20150404" and rom == "cm-12":
-        # SPECIAL CASE: problem in distributed build (which was actually dated 20150405 on the outside)
-        date = "20150405"
-        rom = "cm-12-1"
-
-    return vendor, device, rom, date
-
-
 def get_rom_filename(rom):
-    if rom == "cm-12":
-        return "cm-12"
-    elif rom == "cm-12-1":
-        return "cm-12.1"
-    raise Exception("Unknown version")
-
-
-def get_folder_info(device, rom):
-    if device != "i9082":
-        raise Exception("Unknown device")
-
-    if rom == "cm-12":
-        return get_and_parse_folder_info('https://basketbuild.com/devs/pawitp/i9082_cm12.0/')
-    elif rom == "cm-12-1":
-        return get_and_parse_folder_info('https://basketbuild.com/devs/pawitp/i9082_cm12.1/')
+    if rom == "cm-13-0":
+        return "cm-13.0"
     else:
         raise Exception("Unknown version")
+
+
+def get_folder_info(device):
+    if device != "i9105p":
+        raise Exception("Unknown device")
+
+    return get_and_parse_folder_info('https://basketbuild.com/devs/GHsR/CM-13/i9105p/')
 
 
 def get_and_parse_folder_info(url):
@@ -80,13 +61,11 @@ def get_md5sum(url):
 
 
 def get_thread(device, rom):
-    if device != "i9082":
+    if device != "i9105p":
         raise Exception("Unknown device")
 
-    if rom == "cm-12":
-        return _fetch_memcache('http://forum.xda-developers.com/galaxy-grand-duos/development/rom-cm-12-0-galaxy-grand-duos-i9082-t2942255')
-    elif rom == "cm-12-1":
-        return _fetch_memcache('http://forum.xda-developers.com/galaxy-grand-duos/development/rom-cm-12-1-galaxy-grand-duos-i9082-t3073108')
+    if rom == "cm-13-0":
+        return _fetch_memcache('http://forum.xda-developers.com/galaxy-s2-plus/orig-development/rom-cyanogenmod-13-t3265341/')
     else:
         raise Exception("Unknown version")
 
@@ -105,12 +84,3 @@ def _fetch_memcache(url):
 
 def timestamp_from_build_date(build_date):
     return datetime.strptime(build_date, "%Y%m%d").strftime("%s")
-
-
-def api_level_from_rom(rom):
-    if rom == "cm-12":
-        return 21
-    elif rom == "cm-12-1":
-        return 22
-    else:
-        raise Exception("Unknown version")

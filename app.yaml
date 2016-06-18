@@ -1,4 +1,4 @@
-application: pawitp-update
+application: ghsr-update
 version: 2
 runtime: python27
 api_version: 1

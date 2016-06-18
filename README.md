@@ -1,4 +1,4 @@
-An alternative implementation of OTA server for CM ROMs used in my i9082 unofficial CM.
+An alternative implementation of OTA server for CM ROMs used in my i9105p unofficial CM.
 
 It's not really designed to be flexible and easily re-usable, but if you need
 an OTA server implementation for your unofficial CM build, feel free to fork,
