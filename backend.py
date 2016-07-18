@@ -15,10 +15,12 @@ def get_rom_filename(rom):
 
 
 def get_folder_info(device):
-    if device != "i9105p":
+    if device == "i9105p":
+        return get_and_parse_folder_info('https://basketbuild.com/devs/GHsR/CM-13/i9105p/')
+    elif device == "i9152":
+        return get_and_parse_folder_info('https://basketbuild.com/devs/Kiborg_Man/CM13/')
+    else:
         raise Exception("Unknown device")
-
-    return get_and_parse_folder_info('https://basketbuild.com/devs/GHsR/CM-13/i9105p/')
 
 
 def get_and_parse_folder_info(url):
@@ -60,14 +62,22 @@ def get_md5sum(url):
     return md5
 
 
-def get_thread(device, rom):
-    if device != "i9105p":
+def get_thread(device):
+    if device == "i9105p":
+        return _fetch_memcache('http://forum.xda-developers.com/galaxy-s2-plus/orig-development/rom-cyanogenmod-13-t3265341/')
+    elif device == "i9152":
+        return _fetch_memcache('http://forum.xda-developers.com/galaxy-mega/orig-development/rom-cyanogenmod-13-t3297678/')
+    else:
         raise Exception("Unknown device")
 
-    if rom == "cm-13-0":
-        return _fetch_memcache('http://forum.xda-developers.com/galaxy-s2-plus/orig-development/rom-cyanogenmod-13-t3265341/')
+
+def get_changelog_url(filename, device):
+    if device == "i9105p":
+        return "https://raw.githubusercontent.com/ghsr/changelog/android-6.0/cyanogenmod/" + filename.replace(".zip", ".txt")
+    elif device == "i9152":
+        return None
     else:
-        raise Exception("Unknown version")
+        raise Exception("Unknown device")
 
 
 def _fetch_memcache(url):
